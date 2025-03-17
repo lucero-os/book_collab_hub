@@ -1,0 +1,61 @@
+name: book_collab_challenge
+services:
+  app:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: api
+    restart: unless-stopped
+    working_dir: /var/www/api
+    volumes:
+      - ./api:/var/www/api
+    depends_on:
+      - db
+      - cache
+    networks:
+      - laravel_net
+  nginx:
+    image: nginx:alpine
+    container_name: laravel_nginx
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./api:/var/www/api
+      - ./api/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    networks:
+      - laravel_net
+  cache:
+    image: redis:7.4
+    container_name: cache
+    restart: always
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmfsadvkLLFJDEcf78oLd2t81
+    volumes: 
+      - ~/dev/projects/book_collab_challenge/redis/tmp/:/data
+    ports:
+      - 6379:6379
+    networks:
+      - laravel_net
+  db:
+    image: mysql:8.4
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: bclocal
+      MYSQL_USER: bclocal
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    ports:
+      - 3307:3306
+    volumes:
+      - ~/dev/projects/book_collab_challenge/mysql/tmp/:/docker-entrypoint-initdb.d
+    networks:
+      - laravel_net
+networks:
+  laravel_net:
+    driver: bridge

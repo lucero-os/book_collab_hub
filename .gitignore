@@ -25,3 +25,7 @@ api/.zed
 # Ignore Docker volumes
 mysql/*
 redis/*
+
+# Ignore os files
+.DS_Store
+api/.DS_Store
