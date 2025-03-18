@@ -1,8 +1,10 @@
 <?php
 
+use App\Handlers\Exceptions\Handler;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,5 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (Exception $e, Request $request) {
+            if ($request->is('api/*')) {
+                $handler = new Handler();
+                return $handler->render($request, $e);
+            }
+        });
     })->create();
