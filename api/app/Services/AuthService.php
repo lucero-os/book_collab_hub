@@ -4,14 +4,13 @@ namespace App\Services;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
     public function login(array $credentials)
     {
         if (!$token = auth()->attempt($credentials)) {
-            throw new NotFoundHttpException();
+            throw new AuthenticationException('Invalid credentials');
         }
 
         return ['token' => $token];
