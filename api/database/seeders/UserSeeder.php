@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'password' => 'secretAuthor'
         ]);
 
-        $adminRole = Role::where('name', 'book_author')->pluck('id');
+        $adminRole = Role::where('code', 'book_author')->pluck('id');
         $author->roles()->attach($adminRole);
 
         // Create a user with the 'collaborator' role
