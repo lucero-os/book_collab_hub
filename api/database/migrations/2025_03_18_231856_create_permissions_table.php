@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('book_sections', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('book_id')->constrained();
-            $table->foreignId('parent_id')
-                ->nullable()
-                ->constrained('book_sections')
-                ->onDelete('cascade');
+            $table->string('code');
+            $table->string('desc');
             $table->timestamps();
         });
     }
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('book_sections');
+        Schema::dropIfExists('permissions');
     }
 };

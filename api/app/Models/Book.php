@@ -10,4 +10,9 @@ class Book extends Model
     {
         return $this->hasMany('BookSection');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'book_permission_user')->withPivot('permission_id');
+    }
 }
