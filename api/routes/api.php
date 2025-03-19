@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware([ValidateJwtToken::class])->group(function () {
-    Route::get('/user', [UserController::class, 'getData']);
+    Route::prefix('user')->group(function () {
+        Route::get('/', [UserController::class, 'getData']);
+        Route::post('/addBookPermissions', [UserController::class, 'addBookPermission']);
+    });
+
     Route::post('/logout', [AuthController::class, 'logout']);
 });

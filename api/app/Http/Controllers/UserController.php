@@ -20,4 +20,18 @@ class UserController extends Controller
 
         return response()->json(['user' => $user], 200);
     }
+
+    public function addBookPermission(Request $request)
+    {
+        $request->validate([
+            'userId' => 'required|integer',
+            'bookId' => 'required|integer',
+            'permissionCode' => 'required|string',
+        ]);
+        $credentials = $request->only('userId', 'bookId', 'permissionCode');
+
+        $this->userService->addBookPermission($credentials);
+
+        return response()->json(['message' => 'Permissions have been added'], 200);
+    }
 }
