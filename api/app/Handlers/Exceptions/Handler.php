@@ -2,6 +2,7 @@
 
 namespace App\Handlers\Exceptions;
 
+use App\Exceptions\CustomErrorException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
@@ -79,6 +80,11 @@ class Handler
                 break;
 
             case $exception instanceof HttpException:
+                $status = $exception->getStatusCode();
+                $message = $exception->getMessage() ?: 'HTTP error';
+                break;
+
+            case $exception instanceof CustomErrorException:
                 $status = $exception->getStatusCode();
                 $message = $exception->getMessage() ?: 'HTTP error';
                 break;
