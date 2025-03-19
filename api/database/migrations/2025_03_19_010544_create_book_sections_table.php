@@ -19,6 +19,7 @@ return new class extends Migration
                 ->constrained()
                 ->nullable()
                 ->index();
+            $table->string('content');
             $table->timestamps();
         });
     }
