@@ -15,7 +15,7 @@ class CacheService
      * @param int|\DateTimeInterface $ttl The time to live (cache expiry)
      * @return void
      */
-    public function append($cacheKey, $newRecord, $type = 'list', $ttl = 3600)
+    public function append($cacheKey, $newRecord, $type = 'json', $ttl = 3600)
     {
         $existingRecords = Redis::get($cacheKey);
 
@@ -54,7 +54,7 @@ class CacheService
      * @param string $type The type of cache storage ('list', 'json', 'hash', or 'set')
      * @return mixed
      */
-    public function retrieve($cacheKey, $type = 'list')
+    public function retrieve($cacheKey, $type = 'json')
     {
         $cachedData = Redis::get($cacheKey);
 
@@ -81,9 +81,9 @@ class CacheService
         Redis::del($key);
     }
 
-    public function replace($key, $value, $ttl = 3600)
+    public function replace($key, $value, $type = 'json', $ttl = 3600)
     {
         Redis::del($key);
-        $this->append($key, $value, 'json');
+        $this->append($key, $value, $type);
     }
 }

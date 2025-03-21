@@ -43,7 +43,7 @@ class BookService
         // Cache new section tree
         $cacheKey = 'books_'.$book->id;
         $book = $book->load('sections.allChildren');
-        $this->cacheService->replace($cacheKey, $book, 'json');
+        $this->cacheService->replace($cacheKey, $book);
     }
 
     /**
@@ -60,12 +60,12 @@ class BookService
 
         // Search for cached book
         $cacheKey = 'books_'.$bookId;
-        $cachedBook = $this->cacheService->retrieve($cacheKey, 'json');
+        $cachedBook = $this->cacheService->retrieve($cacheKey);
 
         if(!$cachedBook){
             $book = $book->load('sections.allChildren');
             // Load book on cache
-            $this->cacheService->append($cacheKey, $book, 'json');
+            $this->cacheService->append($cacheKey, $book);
         }else{
             $book = $cachedBook;
         }
