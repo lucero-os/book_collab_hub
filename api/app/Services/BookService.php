@@ -42,7 +42,7 @@ class BookService
     public function getBook($bookId)
     {
         // Check book exists
-        $book = Book::with('sections.children')->find($bookId);
+        $book = Book::with('sections.allChildren')->find($bookId);
         if(!$book) throw new CustomErrorException('Book not found');
 
         return $book;
