@@ -8,7 +8,7 @@ class Book extends Model
 {
     public function sections()
     {
-        return $this->hasMany('BookSection');
+        return $this->hasMany(BookSection::class)->whereNull('book_sections.parent_id');
     }
 
     public function users()

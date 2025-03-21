@@ -27,4 +27,10 @@ class BookController extends Controller
 
         return response()->json(['message' => 'Section created'], 200);
     }
+
+    public function getBook(Request $request, $bookId)
+    {
+        $book = $this->bookService->getBook($bookId);
+        return response()->json(['book' => $book]);
+    }
 }

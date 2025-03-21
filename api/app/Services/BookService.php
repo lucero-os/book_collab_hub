@@ -32,4 +32,19 @@ class BookService
         $bookSection->content = ''; // initially empty
         $bookSection->save();
     }
+
+    /**
+     * Return a book with all sections and sub-sections
+     * @param integer $bookId
+     * @return Book $book
+     * @throws CustomErrorException
+     */
+    public function getBook($bookId)
+    {
+        // Check book exists
+        $book = Book::with('sections.children')->find($bookId);
+        if(!$book) throw new CustomErrorException('Book not found');
+
+        return $book;
+    }
 }

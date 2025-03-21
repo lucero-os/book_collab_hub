@@ -11,6 +11,6 @@ class BookSection extends Model
 
     public function book()
     {
-        return $this->belongsTo('Book');
+        return $this->belongsTo(Book::class);
     }
 }

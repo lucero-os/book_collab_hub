@@ -15,6 +15,7 @@ Route::middleware([ValidateJwtToken::class])->group(function () {
     });
 
     Route::prefix('book')->group(function () {
+        Route::get('/{id}', [BookController::class, 'getBook'])->where('id', '[0-9]+'); // Only numbers allowed;
         Route::post('/section', [BookController::class, 'createSection']);
     });
 
