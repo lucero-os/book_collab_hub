@@ -1,0 +1,253 @@
+openapi: 3.0.0
+info:
+  title: Book collab hub
+  version: 1.0.0
+  description: API documentation without PHPDoc annotations
+
+servers:
+  - url: http://127.0.0.1:8000/api
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    NotFoundResponse:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Endpoint not found"
+    UnauthorizedResponse:
+          description: Access token expired or invalid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Resource not found"
+    ValidationError:
+          description: Missing or incorrectly formatted parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "ValidationFailed"
+                  errors:
+                    type: object
+                    properties:
+                      fieldName:
+                        type: array
+                        items:
+                          type: string
+                          example: "This is error message 1"
+
+tags:
+  - name: Authentication
+    description: Endpoints for user authentication
+  - name: Books
+    description: Endpoints for managing books
+  - name: Users
+    description: Endpoints for user management
+
+paths:
+  /login:
+    post:
+      summary: Login / Get access token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "strongpassword"
+      responses:
+        200:
+          description: Logged in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR..."
+        422:
+          $ref: '#/components/responses/ValidationError'
+  /logout:
+    get:
+      summary: Logout / Expire acces token
+      tags:
+        - Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Logged out
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "Logged out successfully"
+
+  # Books group
+  /book/{id}:
+    get:
+      summary: Get book by ID
+      tags:
+        - Books
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Book data and sections
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  book:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: My custom book
+                      created_at:
+                        type: string
+                        example: 2025-03-21T00:29:12.000000Z
+                      updated_at:
+                        type: string
+                        example: 2025-03-21T00:29:12.000000Z
+                      sections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1,
+                            name:
+                              type: string
+                              example: Index
+                            book_id:
+                              type: integer
+                              example: 1,
+                            parent_id:
+                              type: integer
+                              example: null,
+                            content:
+                              type: string
+                              example: "This is an index"
+                            created_at:
+                              type: string
+                              example: 2025-03-21T00:29:57.000000Z
+                            updated_at:
+                              type: string
+                              example: 2025-03-21T00:29:57.000000Z
+        401:
+          $ref: '#/components/responses/UnauthorizedResponse'
+        422:
+          $ref: '#/components/responses/ValidationError'
+
+  /book/section:
+    post:
+      summary: Create book section
+      description: |
+        Only allowed for users with permissions to create book sections.
+        Use parentId field (optional) to create nested sections.
+      tags:
+        - Books
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bookId:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: "Index"
+                parentId:
+                  type: integer
+                  example: 1
+            required:
+            - bookId
+            - name
+      responses:
+        200:
+          description: Section created
+        401:
+          $ref: '#/components/responses/UnauthorizedResponse'
+        422:
+          $ref: '#/components/responses/ValidationError'
+  # Users group
+  /user/addBookPermissions:
+    get:
+      summary: Add book permissions to user.
+      description: |
+        Only allowed for users with "Book author" profile
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                bookId:
+                  type: integer
+                  example: 1
+                permissionCode:
+                  type: string
+                  example: "create_book_section"
+      responses:
+        200:
+          description: Permissions have been added
+        401:
+          $ref: '#/components/responses/UnauthorizedResponse'
+        422:
+          $ref: '#/components/responses/ValidationError'
