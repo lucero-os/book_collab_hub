@@ -28,10 +28,6 @@ RUN composer install --no-dev --optimize-autoloader
 # Set correct permissions
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Generate Swagger documentation
-RUN php artisan vendor:publish --provider="L5Swagger\L5SwaggerServiceProvider" --force \
-    && php artisan l5-swagger:generate
-
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
 

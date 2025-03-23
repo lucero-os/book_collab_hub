@@ -1,4 +1,4 @@
-name: book_collab_challenge
+name: book_collab_app
 services:
   app:
     build: 
