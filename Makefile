@@ -8,7 +8,7 @@ SERVICE = app
 
 # Commands
 fromScratch: ## Start and run project from scratch
-	build up migrate seed
+	build up key migrate seed
 
 build: ## Build the Docker images for the app, MySQL, and Redis
 	$(DOCKER_COMPOSE) build
@@ -28,6 +28,9 @@ migrate: ## Run database migrations inside the container
 seed: ## Run database seeding inside the container
 	$(DOCKER_COMPOSE) exec $(SERVICE) php artisan db:seed
 
+key: ## Generate the Application Key
+	$(DOCKER_COMPOSE) exec $(SERVICE) php artisan key:generate
+
 lupdate: ## Update Laravel dependencies
 	$(DOCKER_COMPOSE) exec $(SERVICE) composer update
 
@@ -37,13 +40,14 @@ prune: ## Remove all unused containers, images, and volumes
 
 help: ## Show help message
 	@echo "Available make commands:"
-	@echo "  fromScratch   Start and run project from scratch"
-	@echo "  build         Build Docker images for app, MySQL, and Redis"
-	@echo "  up            Start containers"
-	@echo "  down          Stop and remove containers"
-	@echo "  logs          View logs for all containers"
-	@echo "  migrate       Run database migrations"
-	@echo "  seed          Run database seeding"
-	@echo "  lupdate       Update Laravel dependencies"
-	@echo "  prune         Remove unused Docker containers, images, and volumes"
+	@echo "  fromScratch   	Start and run project from scratch"
+	@echo "  build         	Build Docker images for app, MySQL, and Redis"
+	@echo "  up            	Start containers"
+	@echo "  down          	Stop and remove containers"
+	@echo "  logs          	View logs for all containers"
+	@echo "  migrate       	Run database migrations"
+	@echo "  seed          	Run database seeding"
+	@echo "  key			Generate the Application Key"
+	@echo "  lupdate       	Update Laravel dependencies"
+	@echo "  prune         	Remove unused Docker containers, images, and volumes"
 

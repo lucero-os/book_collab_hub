@@ -6,12 +6,15 @@ The setup is streamlined using a `Makefile` to simplify common tasks like buildi
 
 ## Technology argument
 * Laravel 12: Discover laravel's most recent features.
-* Mysql: Constrained relationships.
-* Redis: Swift implementation and quick responses to heavy queries.
+* Mysql: Strong relational integrity with enforced constraints, ensuring data consistency.
+* Redis: Swift implementation and quick responses to heavy queries, reducing database load.
 * Swagger: Clear and user friendly api docs.
+* Docker: Portable and consistent environment across OSes, seamless project setup and deployment.
+* JWT: Stateless, secure authentication ideal for APIs, reducing the need for server-side session storage.
 
 ## Brief
 This API was developed for a team to collaborate on books. Each book has sections, with unlimited sub-sections.
+I used a self reference trait to make querying nested sub-sections clean and understandable. 
 Users have different roles:
 * Author: Is able to create and edit books' sections, and able to grant permissions to **collaborators** to create new sections.
 * Collaborator: Is able to edit books' sections, and eligible to create new sections.
@@ -43,11 +46,6 @@ volumes:
 make fromScratch
 ```
 This command builds the necessary images for the Laravel application, MySQL, and Redis, starts up project and runs migrations and seeders.
-
-### 6. Generate the Application Key
-```bash
-docker-compose exec app php artisan key:generate
-```
 
 ## Stopping the Project
 To stop the running containers:
