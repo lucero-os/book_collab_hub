@@ -63,7 +63,7 @@ To run containers:
 ```bash
 make up
 ```
-This will stop and remove the Laravel, MySQL, and Redis containers.
+This will start the Laravel, MySQL, and Redis containers.
 
 ## API Documentation
 Exposed endpoints in swagger for tryout on /api/documentation#/
