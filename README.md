@@ -29,8 +29,8 @@ Before running the project, ensure you have the following installed:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/lucero-os/book_collab_hub.git
+cd book_collab_hub
 ```
 
 ### 2. Update docker-compose file db and cache volumes to your project path
