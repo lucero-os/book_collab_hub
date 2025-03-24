@@ -35,11 +35,15 @@ cd your-repo-name
 
 ### 2. Update docker-compose file db and cache volumes to your project path
 ```bash
-volumes: 
-  - {your_project_path}book_collab_challenge/redis/tmp/:/data
+cache:
+  volumes: 
+    - {your_project_path}/book_collab_hub/redis/tmp/:/data
+db:
+  volumes:
+      - {your_project_path}/book_collab_hub/mysql/tmp/:/docker-entrypoint-initdb.d
 ```
 
-### 3. Set Up the Environment updating project .env using api/.env.example as template.
+### 3. Set Up the Environment creating project api/.env taking api/.env.example as template.
 
 ### 4. Start and run project from scratch
 ```bash
