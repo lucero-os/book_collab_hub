@@ -54,7 +54,14 @@ This command builds the necessary images for the Laravel application, MySQL, and
 ## Stopping the Project
 To stop the running containers:
 ```bash
-make stop
+make down
+```
+This will stop and remove the Laravel, MySQL, and Redis containers.
+
+## Starting back
+To run containers:
+```bash
+make up
 ```
 This will stop and remove the Laravel, MySQL, and Redis containers.
 
