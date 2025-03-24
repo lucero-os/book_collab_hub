@@ -1,4 +1,4 @@
-# Project Name: Dockerized Laravel App
+# Project Name: Book collab hub
 
 ## Introduction
 This project is a fully dockerized Laravel application that includes MySQL for database storage and Redis for caching. 
