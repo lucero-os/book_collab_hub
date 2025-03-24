@@ -7,8 +7,8 @@ DOCKER_COMPOSE = docker-compose -p $(PROJECT_NAME)
 SERVICE = app
 
 # Commands
-fromScratch: ## Start and run project from scratch
-	build up key migrate seed
+# Build and run project from scratch
+fromScratch: build up key migrate seed
 
 build: ## Build the Docker images for the app, MySQL, and Redis
 	$(DOCKER_COMPOSE) build
@@ -37,6 +37,9 @@ lupdate: ## Update Laravel dependencies
 # Prune unused Docker images and containers
 prune: ## Remove all unused containers, images, and volumes
 	docker system prune -f
+
+hardPrune: ## Remove all containers, images, and volumes
+	docker builder prune -a -f
 
 help: ## Show help message
 	@echo "Available make commands:"
