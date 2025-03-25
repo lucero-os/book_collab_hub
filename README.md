@@ -68,6 +68,10 @@ This will start the Laravel, MySQL, and Redis containers.
 ## API Documentation
 Exposed endpoints in swagger for tryout on /api/documentation#/
 
+## Test users
+* Author user: email: author@example.com, password: secretAuthor
+* Collaborator user: email: collaborator@example.com, password: secretCollab
+
 ## Troubleshooting
 - Run `docker-compose ps` to check if all containers are running.
 - If changes are not reflected, try restarting the containers:
